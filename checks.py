@@ -1,32 +1,6 @@
 import subprocess
 import paramiko
 
-def checkout(cmd, text):
-    result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, encoding='utf-8')
-
-    if text in result.stdout and result.returncode == 0:
-        return True
-    else:
-        return False
-
-
-def checkout_negativ(cmd, text):
-    result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, encoding='utf-8', stderr=subprocess.PIPE)
-
-    if (text in result.stdout or text in result.stderr) and result.returncode != 0:
-        return True
-    else:
-        return False
-
-
-def check_hash_crc32(cmd):
-    result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, encoding='utf-8')
-    return result.stdout
-
-def getout(cmd):
-    return subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, encoding='utf-8').stdout
-
-
 
 def ssh_checkout(host, user, passwd, cmd, text, port=22):
     client = paramiko.SSHClient()
@@ -55,6 +29,7 @@ def ssh_checkout_negative(host, user, passwd, cmd, text, port=22):
         return True
     else:
         return False
+        
 
 def ssh_getout(host, user, passwd, cmd, port=22):
     client = paramiko.SSHClient()
@@ -76,6 +51,7 @@ def upload_files(host, user, passwd, local_path, remote_path, port=22):
         sftp.close()
     if transport:
         transport.close()
+        
 
 def download_files(host, user, passwd, remote_path, local_path, port=22):
     print(f"Скачиваем файл {remote_path} в каталог {local_path}")
@@ -87,7 +63,3 @@ def download_files(host, user, passwd, remote_path, local_path, port=22):
         sftp.close()
     if transport:
         transport.close()
-
-
-
-# print(ssh_getout("localhost", "kes", "1", "ls"))
