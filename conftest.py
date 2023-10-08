@@ -5,18 +5,6 @@ import pytest as pytest
 from checks import ssh_checkout, ssh_getout
 from datetime import datetime
 
-
-# Задание 1.
-#
-# Условие:
-# Дополнить проект фикстурой, которая после каждого шага теста дописывает в заранее созданный файл stat.txt строку вида:
-# время, кол-во файлов из конфига, размер файла из конфига, статистика загрузки процессора из файла /proc/loadavg
-# (можно писать просто всё содержимое этого файла).
-#
-# Задание 2. (дополнительное задание)
-#
-# Дополнить все тесты ключом команды 7z -t (тип архива). Вынести этот параметр в конфиг.
-
 with open('config.yaml') as fy:
     data = yaml.safe_load(fy)
 
@@ -24,15 +12,13 @@ with open('config.yaml') as fy:
 @pytest.fixture()
 def make_folder():
     return ssh_checkout(data["host"], data["user"], data["passwd"],
-        f'mkdir -p {data["folder_in"]} {data["folder_out"]} {data["folder_ext"]} {data["folder_ext3"]} {data["folder_bad"]}',
-        "")
+        f'mkdir -p {data["folder_in"]} {data["folder_out"]} {data["folder_ext"]} {data["folder_ext3"]} {data["folder_bad"]}', "")
 
 
 @pytest.fixture()
 def clear_folder():
     return ssh_checkout(data["host"], data["user"], data["passwd"],
-        f'rm -rf {data["folder_in"]}/* {data["folder_out"]}/* {data["folder_ext"]}/* {data["folder_ext3"]}/* {data["folder_bad"]}/*',
-        "")
+        f'rm -rf {data["folder_in"]}/* {data["folder_out"]}/* {data["folder_ext"]}/* {data["folder_ext3"]}/* {data["folder_bad"]}/*', "")
 
 
 @pytest.fixture()
@@ -43,7 +29,6 @@ def make_files():
         ssh_checkout(data["host"], data["user"], data["passwd"],f'cd {data["folder_in"]};'
                         f'dd if=/dev/urandom of={file_name} bs={data["bs"]} count=1 iflag=fullblock', '')
         list_files.append(file_name)
-
     return list_files
 
 
@@ -56,7 +41,6 @@ def make_subfolder():
     if not  ssh_checkout(data["host"], data["user"], data["passwd"], f'cd {data["folder_in"]}/{subfolder_name}; '
                     f'dd if=/dev/urandom of={subfile_name} bs={data["bs"]} count=1 iflag=fullblock', ''):
         return subfolder_name, None
-
     return subfolder_name, subfile_name
 
 
