@@ -22,6 +22,3 @@ class TestNegative:
         assert ssh_checkout_negative(data["host"], data["user"], data["passwd"], f'cd {data["folder_bad"]}; 7z t arx2.{data["exten"]}', "ERROR")
 
 
-
-if __name__ == '__main__':
-    pytest.main(['-vv'])
