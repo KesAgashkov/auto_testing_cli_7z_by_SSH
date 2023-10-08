@@ -1,12 +1,12 @@
 import random
 import string
 import yaml
-import pytest as pytest
-from checks import ssh_checkout, ssh_getout
+import pytest
+from checks import ssh_checkout
 from datetime import datetime
 
-with open('config.yaml') as fy:
-    data = yaml.safe_load(fy)
+with open('config.yaml') as f:
+    data = yaml.safe_load(f)
 
 
 @pytest.fixture()
